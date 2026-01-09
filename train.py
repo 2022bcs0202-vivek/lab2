@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import Ridge
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 import joblib
 
@@ -32,7 +33,11 @@ X_test = scaler.transform(X_test)
 
 
 # Model
-model = Ridge(alpha=1.0)
+model = RandomForestRegressor(
+    n_estimators=100,
+    max_depth=15,
+    random_state=42
+)
 model.fit(X_train, y_train)
 
 # Predictions
