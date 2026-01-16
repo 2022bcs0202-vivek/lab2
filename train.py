@@ -53,6 +53,7 @@ print(f"R2 Score: {r2}")
 
 # Save model
 joblib.dump(model, "output/model/trained_model.pkl")
+joblib.dump(scaler, "output/model/scaler.pkl")
 
 # Save metrics
 metrics = {
