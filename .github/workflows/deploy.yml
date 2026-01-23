@@ -19,7 +19,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: "3.11"
 
     - name: Install Dependencies
       run: |
@@ -30,10 +30,14 @@ jobs:
       run: |
         python train.py
 
-    - name: Upload Model Artifact
+    - name: Verify Output Files
+      run: |
+        ls -R output
+
+    - name: Upload Model & Metrics Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: model-files
+        name: model-artifacts
         path: |
           output/model/trained_model.pkl
           output/results/metrics.json
@@ -52,13 +56,12 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: model-files
+        name: model-artifacts
 
     - name: Read Metrics
-      id: metrics
       run: |
-        echo "F1=$(jq -r '.f1' metrics.json)" >> $GITHUB_ENV
-        echo "MSE=$(jq -r '.mse' metrics.json)" >> $GITHUB_ENV
+        echo "F1=$(jq -r '.f1' output/results/metrics.json)" >> $GITHUB_ENV
+        echo "MSE=$(jq -r '.mse' output/results/metrics.json)" >> $GITHUB_ENV
 
     - name: Compare Metrics
       run: |
@@ -72,7 +75,8 @@ jobs:
 
     - name: Docker Login
       run: |
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login \
+        -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build Docker Image
       run: |
@@ -81,3 +85,4 @@ jobs:
     - name: Push Docker Image
       run: |
         docker push vivekbcs202/wine-api:latest
+
