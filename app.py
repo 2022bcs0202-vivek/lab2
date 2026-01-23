@@ -5,7 +5,7 @@ import numpy as np
 app = FastAPI()
 
 # Load trained model
-model = joblib.load("model.pkl")
+model = joblib.load("output/model/trained_model.pkl")
 
 @app.get("/")
 def home():
@@ -33,3 +33,4 @@ def predict(
     prediction = model.predict(features)
 
     return {"predicted_quality": float(prediction[0])}
+
