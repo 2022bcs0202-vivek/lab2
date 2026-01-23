@@ -35,8 +35,8 @@ jobs:
       with:
         name: model-files
         path: |
-          model.pkl
-          metrics.json
+          output/model/trained_model.pkl
+          output/results/metrics.json
 
   # =========================
   # JOB 2: DEPLOY (CD)
