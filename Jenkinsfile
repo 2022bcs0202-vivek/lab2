@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "vivekbcs202/vivek22bcs202_wine_api"
+        DOCKER_IMAGE = "vivekbcs202/wine-api"
     }
 
     stages {
